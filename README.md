@@ -183,3 +183,30 @@ void* processCode(void *arg) {
                 printf("%3d", resources[i]);
 
         printf("\n"); sleep(1);
+	
+        printf("\tResource Allocated!");
+        printf("\n"); sleep(1);
+        printf("\tProcess Code Running...");
+        printf("\n"); sleep(rand()%3 + 2); // process code
+        printf("\tProcess Code Completed...");
+        printf("\n"); sleep(1);
+        printf("\tProcess Releasing Resource...");
+        printf("\n"); sleep(1);
+        printf("\tResource Released!");
+
+	for(int i=0; i<nResources; i++)
+                resources[i] += allocated[p][i];
+
+        printf("\n\tNow Available : ");
+        for(int i=0; i<nResources; i++)
+                printf("%3d", resources[i]);
+        printf("\n\n");
+
+        sleep(1);
+
+	// condition broadcast
+        nProcessRan++;
+        pthread_cond_broadcast(&condition);
+        pthread_mutex_unlock(&lockResources);
+	pthread_exit(NULL);
+}
